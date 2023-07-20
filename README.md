@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # DADOES
 ## Do Androids Dream of Electric Sheep?
 Softserve's Crash Course Project
@@ -29,4 +28,3 @@ Los pasos a seguir para la instalación son los siguientes:
 - Ejecutar el servidor virtual para acceder al proyecto.
 	> En caso de utilizar Laragon inicie los servicios de este.
 	> En caso de no utilizar Laragon podrá encender el servidor virtual utilizando php artisan serve
->>>>>>> main
