@@ -71,14 +71,28 @@
             var chatMessages = document.getElementById('chat-messages');
 
             messages.forEach(function(msg) {
-                var newMessageDiv = document.createElement('div');
-                newMessageDiv.innerHTML = '<p>' + escapeHTML(msg) + '</p>';
-                chatMessages.appendChild(newMessageDiv);
+                var paragraphs = splitMessageIntoParagraphs(msg, 130);
+                paragraphs.forEach(function(paragraphText) {
+                    var newMessageDiv = document.createElement('div'); // Usamos div en lugar de párrafo
+                    newMessageDiv.textContent = paragraphText; // Usamos textContent para asignar el contenido
+                    chatMessages.appendChild(newMessageDiv);
+                });
             });
 
             // Hacer scroll hacia abajo para mostrar los mensajes más recientes
             chatMessages.scrollTop = chatMessages.scrollHeight;
         };
+
+        // Función para dividir el mensaje en párrafos de 80 caracteres
+        function splitMessageIntoParagraphs(message, maxLength) {
+            var paragraphs = [];
+            while (message.length > maxLength) {
+                paragraphs.push(message.substring(0, maxLength));
+                message = message.substring(maxLength);
+            }
+            paragraphs.push(message);
+            return paragraphs;
+        }
 
         // Función para escapar caracteres especiales en el mensaje
         function escapeHTML(html) {
