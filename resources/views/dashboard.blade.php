@@ -17,7 +17,7 @@
 
                 <div class="flex-1 flex flex-col border-2 rounded-lg p-6 lg:p-8 gap-4">
                     <div id="chat-messages"
-                        class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto">
+                        class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto" style="word-wrap: break-word; word-break: break-all;">
                     </div>
 
                     <div class="bg-white border-2 rounded-lg flex p-4 items-center">
@@ -71,14 +71,41 @@
             var chatMessages = document.getElementById('chat-messages');
 
             messages.forEach(function(msg) {
-                var newMessageDiv = document.createElement('div');
-                newMessageDiv.innerHTML = '<p>' + escapeHTML(msg) + '</p>';
-                chatMessages.appendChild(newMessageDiv);
+                var paragraphs = splitMessageIntoParagraphs(msg, 130);
+                paragraphs.forEach(function(paragraphText) {
+                    var newMessageDiv = document.createElement('div'); // Usamos div en lugar de párrafo
+                    newMessageDiv.textContent = paragraphText; // Usamos textContent para asignar el contenido
+                    chatMessages.appendChild(newMessageDiv);
+                });
             });
 
             // Hacer scroll hacia abajo para mostrar los mensajes más recientes
             chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Crear un MutationObserver para detectar cambios en el div de mensajes
+            var observer = new MutationObserver(function(mutationsList) {
+                mutationsList.forEach(function(mutation) {
+                    // Si se agregó contenido al div de mensajes, hacer scroll hacia abajo
+                    if (mutation.type === 'childList') {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                });
+            });
+
+            // Observar cambios en el div de mensajes
+            observer.observe(chatMessages, { childList: true });
         };
+
+        // Función para dividir el mensaje en párrafos de 130 caracteres
+        function splitMessageIntoParagraphs(message, maxLength) {
+            var paragraphs = [];
+            while (message.length > maxLength) {
+                paragraphs.push(message.substring(0, maxLength));
+                message = message.substring(maxLength);
+            }
+            paragraphs.push(message);
+            return paragraphs;
+        }
 
         // Función para escapar caracteres especiales en el mensaje
         function escapeHTML(html) {
