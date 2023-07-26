@@ -20,7 +20,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="flex flex-col min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -33,7 +33,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="flex flex-1 overflow-auto">
+            <main>
                 {{ $slot }}
             </main>
         </div>
