@@ -17,10 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dadoes', function () {
-    return view('dadoes');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
