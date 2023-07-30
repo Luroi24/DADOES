@@ -19,7 +19,7 @@
                     <div id="chat-messages" class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto">
                         @foreach ($messages as $message)
                             <div class="chat chat-end">
-                                <p class="chat-bubble bg-blue-400 bg-opacity-20 mb-3 text-gray-500 dark:text-gray-500 text-right self-end inline-block w-1/2">
+                                <p class="chat-bubble bg-blue-400 bg-opacity-20 mb-3 text-gray-500 dark:text-gray-500">
                                     {{ $message->content }}
                                 </p>
                             </div>
