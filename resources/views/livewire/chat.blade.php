@@ -15,30 +15,34 @@
                     </p>
                 </div>
 
-                <div class="flex-1 flex flex-col border-2 rounded-lg p-6 lg:p-8 gap-4">
-                    <div id="chat-messages" class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto">
+                <div class="flex-1 flex flex-col border-2 rounded-lg p-6 lg:p-8 gap-4 bg-frame bg-opacity-90">
+                    <div id="chat-messages" class="scrollbar scrollbar-thumb-scrollBar scrollbar-track-gray-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto">
                         @foreach ($messages as $message)
                             <div class="chat chat-end">
-                                <p class="chat-bubble bg-blue-400 bg-opacity-20 mb-3 text-gray-500 dark:text-gray-500">
+                                <p class="chat-bubble bg-messageBubble mb-3 text-gray-500 dark:text-gray-500">
                                     {{ $message->content }}
                                 </p>
                             </div>
                         @endforeach
+                        <div class="chat chat-start">
+                            <p class="chat-bubble bg-responseBubble bg-opacity-70 mb-3 text-gray-700 dark:text-gray-700">
+                                You underestimate my power!
+                            </p>
+                        </div>
                     </div>
 
                     <div class="bg-white border-2 rounded-lg flex p-4 items-center">
                         <form class="flex space-x-2 flex-1" wire:submit.prevent="storeData">
                             <textarea
-                                class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pr-12 pl-3 md:pl-0 text-gray-500 dark:text-gray-500"
+                                class="scrollbar-thin scrollbar-thumb-scrollBar scrollbar-track-gray-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full m-0 w-full resize-none border-0 bg-transparent p-0 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pr-12 pl-3 md:pl-0 text-gray-500 dark:text-gray-500"
                                 placeholder="Type your dream away." id="message-input"
                                 autofocus
-                                maxlength="8000"
+                                maxlength="1500"
                                 wire:model.defer="message"
                                 wire:keydown.enter.prevent="submitMessage()"
                             ></textarea>
                             <button class="p-1 h- mr-0 ml-auto mb-0 mt-auto">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                <svg class="stroke-slate-400" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M12.0519 14.8285L13.4661 16.2427L17.7088 12L13.4661 7.7574L12.0519 9.17161L13.8804 11H6.34321V13H13.8803L12.0519 14.8285Z"
                                         fill="currentColor" />

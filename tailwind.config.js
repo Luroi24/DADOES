@@ -17,8 +17,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                scrollBar: '#D2DAFF',
+                messageBubble: '#EEF1FF',
+                responseBubble: '#B1B2FF',
+                frame: '#AAC4FF',
+            },
         },
     },
 
-    plugins: [forms, typography, daisyui],
+    plugins: [forms, typography, require('daisyui'), require('tailwind-scrollbar')({ nocompatible: true })],
 };
