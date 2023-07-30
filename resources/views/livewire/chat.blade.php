@@ -35,12 +35,15 @@
                         <form class="flex space-x-2 flex-1" wire:submit.prevent="storeData">
                             <textarea
                                 class="scrollbar-thin scrollbar-thumb-scrollBar scrollbar-track-gray-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full m-0 w-full resize-none border-0 bg-transparent p-0 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pr-12 pl-3 md:pl-0 text-gray-500 dark:text-gray-500"
-                                placeholder="Type your dream away." id="message-input"
+                                placeholder="Type your dream away." 
+                                id="input-message"
+                                name="input-message"
                                 autofocus
                                 maxlength="300"
-                                wire:model="message"
+                                wire:model.defer="message"
                             ></textarea>
-                            <button class="p-1 h- mr-0 ml-auto mb-0 mt-auto" wire:loading.attr="disabled" @if(empty($this->message)) disabled @endif>
+                            <x-input-error for="message"></x-input-error>
+                            <button class="p-1 h- mr-0 ml-auto mb-0 mt-auto" wire:loading.attr="disabled" >
                                 <svg wire:loading.remove wire:target="submitMessage" class="stroke-slate-700" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M12.0519 14.8285L13.4661 16.2427L17.7088 12L13.4661 7.7574L12.0519 9.17161L13.8804 11H6.34321V13H13.8803L12.0519 14.8285Z"

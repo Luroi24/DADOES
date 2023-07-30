@@ -19,6 +19,15 @@ class Chat extends Component
         $this->user_id = Auth::user()->id;
     }
 
+    protected function rules()
+    {
+        return [
+            'message' => 'required|string|max:300',
+            'user_id' => 'required',
+            'user_id.*' => 'required|exists:users,id',
+        ];
+    }
+
     public function render()
     {
         $messages = Message::with('user.messages.response')->get();
@@ -26,15 +35,16 @@ class Chat extends Component
     }
 
     public function storeData(){
+        $this->validate();
         if($this->sendingMessage){
             return;
         }
         $this->sendingMessage = true;
         // Validar y guardar los datos en la base de datos
-        $message = Message::create([
-            'user_id' => $this->user_id,
-            'content' => $this->message,
-        ]);
+        $message = new Message();
+        $message->user_id = $this->user_id;
+        $message->content = $this->message;
+        $message->save();
 
         $this->response = OpenAI::completions()->create([
             'model' => 'text-davinci-003',
