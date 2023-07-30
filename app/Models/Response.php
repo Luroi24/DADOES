@@ -9,7 +9,7 @@ class Response extends Model
 {
     use HasFactory;
 
-    protected $guard = [];
+    protected $fillable = ['message_id', 'content'];
 
     public function message(){
         return $this->belongsTo(Message::class);
