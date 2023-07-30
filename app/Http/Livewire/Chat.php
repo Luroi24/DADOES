@@ -33,4 +33,10 @@ class Chat extends Component
         // Restablecer los campos después del almacenamiento
         $this->message = '';
     }
+
+    public function submitMessage()
+    {
+        $this->storeData();
+    }
+
 }

@@ -16,21 +16,25 @@
                 </div>
 
                 <div class="flex-1 flex flex-col border-2 rounded-lg p-6 lg:p-8 gap-4">
-                    <div id="chat-messages" class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto" style="word-wrap: break-word; word-break: break-all;">
+                    <div id="chat-messages" class="bg-white border-2 rounded-lg flex flex-col p-4 flex-1 overflow-wrap overflow-y-auto">
                         @foreach ($messages as $message)
-                            {{ $message->content }}
-                            <br>
+                            <div class="chat chat-end">
+                                <p class="chat-bubble bg-blue-400 bg-opacity-20 mb-3 text-gray-500 dark:text-gray-500 text-right self-end inline-block w-1/2">
+                                    {{ $message->content }}
+                                </p>
+                            </div>
                         @endforeach
                     </div>
 
                     <div class="bg-white border-2 rounded-lg flex p-4 items-center">
                         <form class="flex space-x-2 flex-1" wire:submit.prevent="storeData">
                             <textarea
-                                class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pr-12 pl-3 md:pl-0"
+                                class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-10 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pr-12 pl-3 md:pl-0 text-gray-500 dark:text-gray-500"
                                 placeholder="Type your dream away." id="message-input"
                                 autofocus
                                 maxlength="8000"
                                 wire:model.defer="message"
+                                wire:keydown.enter.prevent="submitMessage()"
                             ></textarea>
                             <button class="p-1 h- mr-0 ml-auto mb-0 mt-auto">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
