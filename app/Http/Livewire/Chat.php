@@ -30,7 +30,7 @@ class Chat extends Component
 
     public function render()
     {
-        $messages = Message::with('user.messages.response')->get();
+        $messages = Message::with('user.messages.response')->where('user_id', Auth::user()->id)->get();
         return view('livewire.chat', compact('messages'));
     }
 
