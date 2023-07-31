@@ -29,7 +29,7 @@ class Chat extends Component
     }
 
     public function render(){
-        $messages = Message::with('user.messages.response')->where('user_id', Auth::user()->id)->get();
+        $messages = Message::with('user')->where('user_id', Auth::user()->id)->get();
         return view('livewire.chat', compact('messages'));
     }
 
@@ -64,6 +64,7 @@ class Chat extends Component
             'content' => 'required|string',
         ]);
         if ($validator->fails()) {
+            DB::table('messages')->where('id', $message->id)->delete();
             $this->addError('response', 'The API response is not correct.');
             return;
         }
