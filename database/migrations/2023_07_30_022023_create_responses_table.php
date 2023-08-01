@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('message_id')->constrained('messages');
             $table->text('content');
+            $table->index('message_id');
             $table->timestamps();
         });
     }
