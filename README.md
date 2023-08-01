@@ -14,7 +14,7 @@ Los pasos a seguir para la instalación son los siguientes:
 	> composer install
 - Copiar el archivo .env.example y renombrarlo .env
 	> cp .env.example .env
-- Abrir el archivo .env en su editor de texto y configurar las credenciales necesarias
+- Abrir el archivo .env en su editor de texto y configurar las credenciales necesarias para la base de datos y la API de OpenAI
 - Crear la app key utilizando Artisan.
 	> php artisan key:generate
 - Ejecutar las migraciones.
@@ -24,3 +24,5 @@ Los pasos a seguir para la instalación son los siguientes:
 - Ejecutar el servidor virtual para acceder al proyecto.
 	> En caso de utilizar Laragon inicie los servicios de este.
 	> En caso de no utilizar Laragon podrá encender el servidor virtual utilizando php artisan serve
+- En caso de ser necesario (es decir, tener problemas al querer recibir una respuesta de la API) ejecutar el siguiente comando
+    > composer require openai-php/laravel
