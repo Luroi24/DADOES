@@ -1,6 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
+import daisyui from 'daisyui';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -16,8 +17,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                scrollBar: '#D2DAFF',
+                messageBubble: '#EEF1FF',
+                responseBubble: '#B1B2FF',
+                frame: '#AAC4FF',
+            },
         },
     },
 
-    plugins: [forms, typography],
+    plugins: [forms, typography, require('daisyui'), require('tailwind-scrollbar')({ nocompatible: true })],
 };
