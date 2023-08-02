@@ -43,6 +43,9 @@
                                 wire:model.defer="message"
                             ></textarea>
                             <x-input-error for="message"></x-input-error>
+                            @error('input') 
+                                <span class="text-red-500">{{ $message }}</span> 
+                            @enderror
                             @error('response') 
                                 <span class="text-red-500">{{ $message }}</span> 
                             @enderror
