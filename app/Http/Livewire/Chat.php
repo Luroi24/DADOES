@@ -7,9 +7,9 @@ use App\Models\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use OpenAI\Laravel\Facades\OpenAI;
-
 class Chat extends Component
 {
     public $message;
@@ -22,7 +22,7 @@ class Chat extends Component
 
     protected function rules(){
         return [
-            'message' => 'required|string|max:300',
+            'message' => ['required', 'string','max:300'],
             'user_id' => 'required',
             'user_id.*' => 'required|exists:users,id',
         ];
@@ -35,6 +35,20 @@ class Chat extends Component
 
     public function storeData(){
         $this->validate();
+
+        $verify_input = OpenAI::moderations()->create([
+            'model' => 'text-moderation-latest',
+            'input' => $this->message,
+        ]);
+
+        $validator = Validator::make($verify_input['results'][0], [
+            'flagged' => ['required', 'boolean', Rule::in([false])],
+        ]);
+
+        if ($validator->fails()) {
+            $this->addError('message', 'The message does not follow OpenAI guidelines');
+            return;
+        }
 
         // Validar y guardar los datos en la base de datos
         $message = new Message();
@@ -61,7 +75,7 @@ class Chat extends Component
         }
         // Validar los datos recibidos de la API
         $validator = Validator::make($this->response['choices'][0]['message'], [
-            'content' => 'required|string',
+            'content' => ['required', 'string'],
         ]);
         if ($validator->fails()) {
             DB::table('messages')->where('id', $message->id)->delete();
