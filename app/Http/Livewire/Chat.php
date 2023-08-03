@@ -33,29 +33,40 @@ class Chat extends Component
         return view('livewire.chat', compact('messages'));
     }
 
-    public function storeData(){
+    public function submitMessage(){
+        $this->storeData();
+    }
+
+    public function validateMessage(){
+        // Verificar reglas de validación
         $this->validate();
 
+        // Aplicar moderación de OpenAI al mensaje ingresado
         $verify_input = OpenAI::moderations()->create([
             'model' => 'text-moderation-latest',
             'input' => $this->message,
         ]);
 
+        // Aplicar regla de validación para verificar si el mensaje cumple con las reglas de moderación de OpenAI
         $validator = Validator::make($verify_input['results'][0], [
             'flagged' => ['required', 'boolean', Rule::in([false])],
         ]);
 
+        // Retornar un error en caso que no se cumpla con las reglas de moderación
         if ($validator->fails()) {
-            $this->addError('message', 'The message does not follow OpenAI guidelines');
-            return;
+            return $this->addError('message', 'The message does not follow OpenAI guidelines');
         }
 
-        // Validar y guardar los datos en la base de datos
+        // Guardar mensaje en la base de datos en caso de pasar las reglas de validación
         $message = new Message();
         $message->user_id = $this->user_id;
         $message->content = $this->message;
         $message->save();
 
+        $this->validateResponse($message);
+    }
+
+    public function validateResponse($message){
         // Verificar que la API envíe una respuesta
         try{
             $this->response = OpenAI::chat()->create([
@@ -77,24 +88,24 @@ class Chat extends Component
         $validator = Validator::make($this->response['choices'][0]['message'], [
             'content' => ['required', 'string'],
         ]);
+        // En caso de no obtener respuesta se elimina el mensaje al que sería asociada la respuesta y se retorna un error
         if ($validator->fails()) {
             DB::table('messages')->where('id', $message->id)->delete();
-            $this->addError('response', 'The API response is not correct.');
-            return;
+            return $this->addError('response', 'The API response is not correct.');
         }
 
+        // Se guarda la respuesta en base de datos en caso de pasar las reglas de validación
         Response::create([
             'message_id' => $message->id,
             'content' => $this->response['choices'][0]['message']['content'],
         ]);
+    }
 
+    public function storeData(){
+        $this->validateMessage();
+        
         // Restablecer los campos después del almacenamiento
         $this->message = '';
         $this->response = '';
     }
-
-    public function submitMessage(){
-        $this->storeData();
-    }
-
 }
