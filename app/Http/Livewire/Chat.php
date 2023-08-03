@@ -103,7 +103,6 @@ class Chat extends Component
 
     public function storeData(){
         $this->validateMessage();
-        
         // Restablecer los campos después del almacenamiento
         $this->message = '';
         $this->response = '';

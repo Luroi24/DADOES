@@ -43,7 +43,6 @@
                                 wire:model.defer="message"
                             ></textarea>
                             <x-input-error for="message"></x-input-error>
-                            <x-input-error for="input"></x-input-error>
                             <x-input-error for="response"></x-input-error>
                             <button class="p-1 h- mr-0 ml-auto mb-0 mt-auto" wire:loading.attr="disabled" >
                                 <svg wire:loading.remove wire:target="storeData" class="stroke-slate-700" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
