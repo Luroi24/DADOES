@@ -26,7 +26,7 @@
                     <i class="fas fa-search" id="search-button-icon"></i>
                 </larecipe-button>
             @endif
-
+            
             {{-- versions dropdown --}}
             <larecipe-dropdown>
                 <larecipe-button type="primary" class="flex">
