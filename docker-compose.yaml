@@ -1,0 +1,26 @@
+version: '3.8'
+services: 
+    main:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        command: 'php artisan serve --host=0.0.0.0'
+        volumes:
+            - .:/dadoes
+        ports:
+            - 8000:8000
+        depends_on: 
+            - db    
+
+    db:
+        container_name: dadoes_db
+        platform: linux/x86_64
+        image: mysql:latest
+        environment: 
+            MYSQL_DATABASE: dadoes
+            MYSQL_ROOT: root
+            MYSQL_ROOT_PASSWORD: 12042327a_I
+        volumes:
+            - ./storage/dbdata:/var/lib/mysql
+        ports:
+            - 3306:3306
