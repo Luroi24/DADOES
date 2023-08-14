@@ -22,6 +22,7 @@ export default {
                 messageBubble: '#EEF1FF',
                 responseBubble: '#B1B2FF',
                 frame: '#AAC4FF',
+                search: '#F8F0E5',
             },
         },
     },

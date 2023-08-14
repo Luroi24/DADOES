@@ -15,6 +15,7 @@ class Chat extends Component
     public $message;
     public $response;
     public $user_id;
+    public $search = '';
 
     public function mount(){
         $this->user_id = Auth::user()->id;
@@ -29,7 +30,7 @@ class Chat extends Component
     }
 
     public function render(){
-        $messages = Message::where('user_id', Auth::user()->id)->with('response')->get();
+        $messages = Message::where('user_id', Auth::user()->id)->where('content', 'like', '%'.$this->search.'%')->with('response')->get();
         return view('livewire.chat', compact('messages'));
     }
 
