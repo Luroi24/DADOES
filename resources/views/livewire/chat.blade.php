@@ -3,7 +3,7 @@
         <div class="w-full h-full py-8 mx-auto sm:px-6 lg:px-8 ">
             <div class="h-full flex overflow-hidden gap-3 sm:rounded-lg">
                 <div class="max-w-sm p-6 lg:p-8 bg-white dark:border-gray-900 border-2 rounded-lg flex-1 flex flex-col hidden sm:flex dark:bg-gray-700">
-                    <h1 class="mt-8 text-2xl font-medium text-gray-900">
+                    <h1 class="mt-8 text-2xl font-medium text-gray-900 dark:text-white">
                         ¡DADOES!
                     </h1>
 
