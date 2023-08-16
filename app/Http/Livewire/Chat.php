@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use OpenAI\Laravel\Facades\OpenAI;
+
 class Chat extends Component
 {
     public $message;
@@ -17,28 +18,33 @@ class Chat extends Component
     public $user_id;
     public $search = '';
 
-    public function mount(){
+    public function mount()
+    {
         $this->user_id = Auth::user()->id;
     }
 
-    protected function rules(){
+    protected function rules()
+    {
         return [
-            'message' => ['required', 'string','max:300'],
+            'message' => ['required', 'string', 'max:300'],
             'user_id' => 'required',
             'user_id.*' => 'required|exists:users,id',
         ];
     }
 
-    public function render(){
-        $messages = Message::where('user_id', Auth::user()->id)->where('content', 'like', '%'.$this->search.'%')->with('response')->get();
+    public function render()
+    {
+        $messages = Message::where('user_id', Auth::user()->id)->where('content', 'like', '%' . $this->search . '%')->with('response')->get();
         return view('livewire.chat', compact('messages'));
     }
 
-    public function submitMessage(){
+    public function submitMessage()
+    {
         $this->storeData();
     }
 
-    public function validateMessage(){
+    public function validateMessage()
+    {
         // Verificar reglas de validación
         $this->validate();
 
@@ -67,9 +73,10 @@ class Chat extends Component
         $this->validateResponse($message);
     }
 
-    public function validateResponse($message){
+    public function validateResponse($message)
+    {
         // Verificar que la API envíe una respuesta
-        try{
+        try {
             $this->response = OpenAI::chat()->create([
                 'model' => 'gpt-3.5-turbo',
                 'temperature' => 0.7,
@@ -80,7 +87,7 @@ class Chat extends Component
                     ['role' => 'user', 'content' => $this->message],
                 ],
             ]);
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             // En caso de no obtener respuesta, se elimina de la base de datos el mensaje y se muestra el error en la vista
             DB::table('messages')->where('id', $message->id)->delete();
             $this->addError('response', 'The API response is not correct.');
@@ -102,8 +109,11 @@ class Chat extends Component
         ]);
     }
 
-    public function storeData(){
+    public function storeData()
+    {
         $this->validateMessage();
+        // Emite este evento para que el boton de "copiar" aparezca en las nuevas respuestas
+        $this->emit('responseAdded');
         // Restablecer los campos después del almacenamiento
         $this->message = '';
         $this->response = '';
